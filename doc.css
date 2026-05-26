@@ -1,0 +1,308 @@
+/* =========================================
+   1. COLOR PALETTE & THEME VARIABLES
+========================================= */
+:root {
+    /* Light Theme */
+    --primary: #2563eb;          /* Vibrant Blue */
+    --primary-hover: #1d4ed8;
+    --bg-color: #f8fafc;         /* Very light slate */
+    --sidebar-bg: #ffffff;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;        /* Deep slate for readability */
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode {
+    /* Dark Theme */
+    --primary: #3b82f6;          /* Lighter blue for dark mode */
+    --primary-hover: #60a5fa;
+    --bg-color: #0f172a;         /* Deepest slate */
+    --sidebar-bg: #1e293b;
+    --card-bg: #1e293b;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+}
+
+/* =========================================
+   2. BASE SETUP & TYPOGRAPHY
+========================================= */
+html { 
+    scroll-behavior: smooth; 
+}
+
+body { 
+    margin: 0; 
+    /* Modern system font stack */
+    font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+    background: var(--bg-color); 
+    color: var(--text-main); 
+    display: flex; 
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--text-main);
+}
+
+/* =========================================
+   3. SIDEBAR NAVIGATION
+========================================= */
+.sidebar { 
+    width: 280px; 
+    height: 100vh; 
+    position: sticky; 
+    top: 0; 
+    background: var(--sidebar-bg); 
+    border-right: 1px solid var(--border-color); 
+    overflow-y: auto; 
+    padding: 2rem 0; 
+    box-sizing: border-box; 
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    flex-shrink: 0;
+}
+
+/* Custom Scrollbar for Sidebar */
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+.sidebar::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+.sidebar h2 { 
+    padding: 0 2rem; 
+    font-size: 1.1rem; 
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted); 
+    margin-bottom: 1.5rem; 
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 0 1.5rem 1.5rem 1.5rem;
+    width: calc(100% - 3rem);
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle:hover { 
+    background: var(--border-color); 
+}
+
+/* Search Bar */
+.search-container { 
+    padding: 0 1.5rem 1.5rem 1.5rem; 
+}
+
+.search-bar {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-color);
+    color: var(--text-main);
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Dropdown Menus (<details>) */
+.nav-group { margin-bottom: 0.5rem; }
+
+.nav-group summary {
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    color: var(--text-main);
+    cursor: pointer;
+    list-style: none;
+    transition: background 0.2s;
+    border-radius: 0 8px 8px 0;
+    margin-right: 1rem;
+}
+
+.nav-group summary::-webkit-details-marker { display: none; }
+
+.nav-group summary::before {
+    content: '▶';
+    font-size: 0.7em;
+    color: var(--text-muted);
+    display: inline-block;
+    transition: transform 0.2s;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.nav-group[open] summary::before { transform: rotate(90deg); }
+.nav-group summary:hover { background: rgba(37, 99, 235, 0.05); }
+
+/* Navigation Links */
+.nav-group .nav-link {
+    display: block; 
+    padding: 0.5rem 1.5rem 0.5rem 2.8rem; 
+    color: var(--text-muted); 
+    text-decoration: none; 
+    font-size: 0.9rem; 
+    border-left: 3px solid transparent; 
+    transition: all 0.2s; 
+}
+
+.nav-link:hover { 
+    color: var(--primary); 
+    background: rgba(37, 99, 235, 0.05); 
+}
+
+.nav-link.active { 
+    color: var(--primary); 
+    border-left-color: var(--primary); 
+    background: rgba(37, 99, 235, 0.08); 
+    font-weight: 600; 
+}
+
+/* =========================================
+   4. MAIN CONTENT AREA
+========================================= */
+.content { 
+    flex: 1; 
+    padding: 3rem 5rem; 
+    max-width: 900px; 
+    line-height: 1.7; 
+}
+
+.content-section { 
+    margin-bottom: 4rem; 
+    padding-top: 2rem; 
+}
+
+h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+h2 { font-size: 1.75rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.75rem; margin-top: 2.5rem; margin-bottom: 1.5rem;}
+p { color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1.05rem; }
+
+.dev-badge { 
+    display: inline-block; 
+    background: rgba(37, 99, 235, 0.1); 
+    color: var(--primary); 
+    padding: 0.3rem 0.8rem; 
+    border-radius: 20px; 
+    font-size: 0.8rem; 
+    font-weight: 700; 
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(37, 99, 235, 0.2);
+}
+
+/* =========================================
+   5. DOWNLOAD CARDS & BUTTONS
+========================================= */
+.download-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.download-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    background: var(--card-bg);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease-in-out;
+}
+
+.download-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary);
+}
+
+.download-item span {
+    font-weight: 600;
+    color: var(--text-main);
+    font-size: 1.05rem;
+}
+
+.download-btn {
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.download-btn:hover {
+    background: var(--primary-hover);
+    transform: scale(1.02);
+}
+
+/* Utility to hide filtered sections */
+.hidden { display: none !important; }
+
+/* =========================================
+   6. MOBILE RESPONSIVENESS
+========================================= */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column; /* Stacks sidebar above content on small screens */
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 1rem;
+    }
+
+    .content {
+        padding: 2rem 1.5rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .download-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .download-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
